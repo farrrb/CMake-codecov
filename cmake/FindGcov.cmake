@@ -107,9 +107,10 @@ endif (NOT TARGET gcov)
 function (add_gcov_target TNAME)
 	set(TDIR ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${TNAME}.dir)
 
+	# This includes Win64 as well (see docs)
 	if (WIN32)
 		set(OUT_TO_DEV_NULL "nul")
-	elseif ()
+	else ()
 		set(OUT_TO_DEV_NULL "/dev/null")
 	endif ()
 
