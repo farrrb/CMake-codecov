@@ -107,6 +107,12 @@ endif (NOT TARGET gcov)
 function (add_gcov_target TNAME)
 	set(TDIR ${CMAKE_CURRENT_BINARY_DIR}/CMakeFiles/${TNAME}.dir)
 
+	if (WIN32)
+		set(OUT_TO_DEV_NULL "nul")
+	elseif ()
+		set(OUT_TO_DEV_NULL "/dev/null")
+	endif ()
+
 	# We don't have to check, if the target has support for coverage, thus this
 	# will be checked by add_coverage_target in Findcoverage.cmake. Instead we
 	# have to determine which gcov binary to use.
@@ -140,7 +146,7 @@ function (add_gcov_target TNAME)
 
 		# call gcov
 		add_custom_command(OUTPUT ${TDIR}/${FILE}.gcov
-			COMMAND ${GCOV_ENV} ${GCOV_BIN} ${TDIR}/${FILE}.gcno > /dev/null
+			COMMAND ${GCOV_ENV} ${GCOV_BIN} ${TDIR}/${FILE}.gcno > ${OUT_TO_DEV_NULL}
 			DEPENDS ${TNAME} ${TDIR}/${FILE}.gcno
 			WORKING_DIRECTORY ${FILE_PATH}
 		)
